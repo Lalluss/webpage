@@ -1,12 +1,11 @@
 <!DOCTYPE html>
 <html>
-<script src="https://telegram.org/js/telegram-web-app.js"></script>
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
 <title>Codec Botz</title>
-
+<script src="https://telegram.org/js/telegram-web-app.js"></script>
 <style>
 
 <script>
@@ -137,6 +136,11 @@ href="https://t.me/Code_cSupport"
 <div class="footer">
 Made With ❤️ By Lallu_tg
 </div>
-
+<script>
+if (window.Telegram?.WebApp) {
+    Telegram.WebApp.ready();
+    Telegram.WebApp.expand();
+}
+</script>
 </body>
 </html>
