@@ -273,14 +273,12 @@ const db = getFirestore(app);
 
 window.addReview = async () => {
 
-const name =
-document.getElementById("name").value;
+const name = document.getElementById("name").value;
+const review = document.getElementById("review").value;
 
-const review =
-document.getElementById("review").value;
-
-if(!name || !review)
-return alert("Fill all fields");
+if(!name || !review){
+    return alert("Fill all fields");
+}
 
 await addDoc(
 collection(db,"reviews"),
@@ -291,7 +289,8 @@ time:Date.now()
 }
 );
 
-document.getElementById("review").value="";
+document.getElementById("name").value = "";
+document.getElementById("review").value = "";
 };
 
 const q = query(
@@ -299,47 +298,88 @@ collection(db,"reviews"),
 orderBy("time","desc")
 );
 
+let allReviews = [];
+let expanded = false;
+
+window.showAllReviews = () => {
+expanded = true;
+renderReviews();
+};
+
+function renderReviews(){
+
+const reviewsToShow =
+expanded
+? allReviews
+: allReviews.slice(0,2);
+
+let html = "";
+
+reviewsToShow.forEach(d => {
+
+html += `
+<div style="
+background:#0b2235;
+padding:12px;
+margin-top:8px;
+border-radius:12px;
+border:1px solid #00d4ff;
+box-shadow:0 0 8px rgba(0,212,255,.3);
+">
+
+<b style="
+color:#31e8ff;
+font-size:18px;
+">
+${d.name}
+</b>
+
+<br><br>
+
+<span style="
+font-size:15px;
+line-height:1.4;
+">
+${d.review}
+</span>
+
+</div>
+`;
+
+});
+
+document.getElementById("reviews").innerHTML = html;
+
+const btn =
+document.getElementById("showMoreBtn");
+
+if(!expanded && allReviews.length > 2){
+btn.style.display = "block";
+}else{
+btn.style.display = "none";
+}
+
+}
+
 onSnapshot(q,(snap)=>{
 
 document.getElementById("count")
 .innerText =
 snap.size + " Reviews";
 
-let html="";
+allReviews = [];
 
 snap.forEach(doc=>{
-
-const d=doc.data();
-
-html += `
-<div style="
-background:#0b2235;
-padding:15px;
-margin-top:10px;
-border-radius:15px;
-border:1px solid #00d4ff;
-box-shadow:0 0 10px rgba(0,212,255,.4);
-color:white;
-">
-<b style="color:#31e8ff;">
-${d.name}
-</b>
-<br><br>
-<span style="color:white;">
-${d.review}
-</span>
-</div>
-`;
-
+allReviews.push(doc.data());
 });
 
-document.getElementById("reviews")
-.innerHTML = html;
+expanded = false;
+
+renderReviews();
 
 });
 
 </script>
-
     
 <div class="footer">
 Made With ❤️ By Lallu_tg
