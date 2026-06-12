@@ -346,6 +346,52 @@ document.getElementById("reviews")
 });
 
 </script>
+<input id="song" placeholder="Song name">
+
+<button onclick="playSong()">
+Play
+</button>
+
+<h3 id="title"></h3>
+
+<img id="thumb" width="250">
+
+<audio
+id="player"
+controls
+style="width:100%;">
+</audio>
+
+<script>
+async function playSong(){
+
+let q =
+document.getElementById("song").value;
+
+let res =
+await fetch(
+"https://139.59.36.89:5000/play?q="
++ encodeURIComponent(q)
+);
+
+let data =
+await res.json();
+
+document.getElementById("title")
+.innerText = data.title;
+
+document.getElementById("thumb")
+.src = data.thumbnail;
+
+let player =
+document.getElementById("player");
+
+player.src = data.audio;
+
+player.play();
+
+}
+</script>
 <div class="footer">
 Made With ❤️ By Lallu_tg
 </div>
