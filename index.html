@@ -358,26 +358,19 @@ style="width:100%;">
 <script>
 async function playSong(){
 
-try {
-
 let q =
 document.getElementById("song").value;
 
 let res =
 await fetch(
-"http://139.59.36.89:5000/play?q=" +
-encodeURIComponent(q),
-{
-  mode: "cors"
-}
+"https://139.59.36.89:5000/play?q="
++ encodeURIComponent(q)
 );
-
-alert("FETCH OK");
 
 let data =
 await res.json();
 
-alert(JSON.stringify(data));
+console.log(data);
 
 document.getElementById("title")
 .innerText = data.title;
