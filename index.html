@@ -366,7 +366,10 @@ document.getElementById("song").value;
 let res =
 await fetch(
 "http://139.59.36.89:5000/play?q=" +
-encodeURIComponent(q)
+encodeURIComponent(q),
+{
+  mode: "cors"
+}
 );
 
 alert("FETCH OK");
