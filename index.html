@@ -365,14 +365,28 @@ style="width:100%;">
 <script>
 async function playSong(){
 
-let q =
-document.getElementById("song").value;
+try {
 
-let res =
-await fetch(
-"http://139.59.36.89:5000/play?q="
-+ encodeURIComponent(q)
+let q = document.getElementById("song").value;
+
+let res = await fetch(
+"http://139.59.36.89:5000/play?q=" +
+encodeURIComponent(q)
 );
+
+alert("FETCH OK");
+
+let data = await res.json();
+
+alert(JSON.stringify(data));
+
+} catch(e){
+
+alert("ERROR: " + e);
+
+}
+
+}
 
 let data =
 await res.json();
