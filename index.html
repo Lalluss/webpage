@@ -110,6 +110,40 @@ body{
     inset 0 0 10px rgba(255,209,102,.2);
 }
 
+.bot-header{
+display:flex;
+align-items:center;
+gap:15px;
+margin-bottom:15px;
+}
+
+.bot-avatar{
+width:80px;
+height:80px;
+border-radius:50%;
+border:3px solid #00d4ff;
+box-shadow:0 0 15px #00d4ff;
+object-fit:cover;
+}
+
+.bot-name{
+margin:0;
+font-size:32px;
+color:#31e8ff;
+text-shadow:0 0 10px #31e8ff;
+}
+
+.bot-username{
+margin-top:5px;
+color:#9ddfff;
+font-size:16px;
+background:rgba(0,212,255,.1);
+border:1px solid rgba(0,212,255,.3);
+padding:5px 12px;
+border-radius:20px;
+display:inline-block;
+    }
+    
 .footer{
     text-align:center;
     margin-top:30px;
@@ -163,11 +197,29 @@ Music Downloader Bot
 
 <div class="card">
 
-<h2>Monkey.D.Luffy</h2>
+<div class="bot-header">
+
+<img
+class="bot-avatar"
+src="IMG_20260612_151854_357.jpg"
+>
+
+<div>
+
+<h2 class="bot-name">
+Monkey.D.Luffy
+</h2>
+
+<div class="bot-username">
+@Venni_la_musicbot
+</div>
+
+</div>
+
+</div>
 
 <p>
-Download Music And videos
-From youtube.
+Download Music And Videos From Youtube.
 </p>
 
 <a
