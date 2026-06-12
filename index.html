@@ -354,47 +354,6 @@ id="player"
 controls
 style="width:100%;">
 </audio>
-
-<script>
-async function playSong(){
-
-let q =
-document.getElementById("song").value;
-
-let res =
-await fetch(
-"https://139.59.36.89:5000/play?q="
-+ encodeURIComponent(q)
-);
-
-let data =
-await res.json();
-
-console.log(data);
-
-document.getElementById("title")
-.innerText = data.title;
-
-document.getElementById("thumb")
-.src = data.thumbnail;
-
-let player =
-document.getElementById("player");
-
-player.src = data.audio;
-
-player.load();
-
-player.play();
-
-} catch(e){
-
-alert("ERROR: " + e);
-
-}
-
-}
-</script>
     
 <div class="footer">
 Made With ❤️ By Lallu_tg
