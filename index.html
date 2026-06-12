@@ -181,5 +181,143 @@ if (window.Telegram?.WebApp) {
     Telegram.WebApp.expand();
 }
 </script>
+<!-- Reviews Section -->
+
+<div class="card">
+
+<h2>⭐ User Reviews</h2>
+
+<input
+id="name"
+placeholder="Your Name"
+style="
+width:100%;
+padding:12px;
+margin-top:10px;
+border-radius:10px;
+border:none;
+"
+>
+
+<textarea
+id="review"
+placeholder="Write Review..."
+style="
+width:100%;
+height:100px;
+padding:12px;
+margin-top:10px;
+border-radius:10px;
+border:none;
+"
+></textarea>
+
+<button
+onclick="addReview()"
+class="btn open"
+style="width:100%;border:none;"
+>
+Submit Review
+</button>
+
+<h3 id="count">
+0 Reviews
+</h3>
+
+<div id="reviews"></div>
+
+</div>
+
+<script type="module">
+
+import { initializeApp }
+from "https://www.gstatic.com/firebasejs/10.12.2/firebase-app.js";
+
+import {
+getFirestore,
+collection,
+addDoc,
+onSnapshot,
+query,
+orderBy
+}
+from "https://www.gstatic.com/firebasejs/10.12.2/firebase-firestore.js";
+
+const firebaseConfig = {
+apiKey: "AIzaSyBqVQvr_t5RHPVE4lyNX4YgTW1JB3uGJ9U",
+authDomain: "codecbotzreviews.firebaseapp.com",
+projectId: "codecbotzreviews",
+storageBucket: "codecbotzreviews.firebasestorage.app",
+messagingSenderId: "981664428734",
+appId: "1:981664428734:web:ddecfef7196353a8c764ef",
+measurementId: "G-HHTV3HBGYS"
+};
+
+const app = initializeApp(firebaseConfig);
+const db = getFirestore(app);
+
+window.addReview = async () => {
+
+const name =
+document.getElementById("name").value;
+
+const review =
+document.getElementById("review").value;
+
+if(!name || !review)
+return alert("Fill all fields");
+
+await addDoc(
+collection(db,"reviews"),
+{
+name,
+review,
+time:Date.now()
+}
+);
+
+document.getElementById("review").value="";
+};
+
+const q = query(
+collection(db,"reviews"),
+orderBy("time","desc")
+);
+
+onSnapshot(q,(snap)=>{
+
+document.getElementById("count")
+.innerText =
+snap.size + " Reviews";
+
+let html="";
+
+snap.forEach(doc=>{
+
+const d=doc.data();
+
+html += `
+<div style="
+background:#0b2235;
+padding:15px;
+margin-top:10px;
+border-radius:15px;
+border:1px solid #00d4ff;
+box-shadow:0 0 10px rgba(0,212,255,.4);
+">
+<b>${d.name}</b>
+<br><br>
+${d.review}
+</div>
+`;
+
+});
+
+document.getElementById("reviews")
+.innerHTML = html;
+
+});
+
+</script>
 </body>
 </html>
