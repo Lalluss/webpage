@@ -1,16 +1,18 @@
 window.searchSong = async () => {
 
-  const btn =
-    document.querySelector(".search-btn");
-
-  const q =
-    document.getElementById(
-      "searchInput"
-    ).value;
+  const q = document
+    .getElementById("searchInput")
+    .value.trim();
 
   if (!q) return;
 
-  btn.innerText = "⏳ Searching...";
+  const btn =
+    document.getElementById("searchBtn");
+
+  // Spinner show
+  btn.innerHTML =
+    '<span class="spinner"></span>';
+
   btn.disabled = true;
 
   try {
@@ -21,19 +23,23 @@ window.searchSong = async () => {
     );
 
     const data =
-    await r.json();
+      await r.json();
 
-    if (!data.status) {
-      alert("Song not found");
+    // ninte search result code...
 
-      btn.innerText =
-      "🔍 Search Song";
+  } catch(err) {
 
-      btn.disabled = false;
+    alert("Search failed");
 
-      return;
-    }
+  } finally {
 
+    // Search Song text thirich varum
+    btn.innerHTML =
+      "🔎 Search Song";
+
+    btn.disabled = false;
+  }
+};
     const player =
     document.getElementById(
       "audioPlayer"
