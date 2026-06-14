@@ -53,7 +53,7 @@ window.searchSong = async () => {
   } finally {
 
     btn.innerHTML =
-      "🔎 Search Song";
+      "🔎";
 
     btn.disabled = false;
   }
