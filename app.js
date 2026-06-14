@@ -9,7 +9,6 @@ window.searchSong = async () => {
   const btn =
     document.getElementById("searchBtn");
 
-  // Spinner show
   btn.innerHTML =
     '<span class="spinner"></span>';
 
@@ -25,57 +24,40 @@ window.searchSong = async () => {
     const data =
       await r.json();
 
-    // ninte search result code...
+    if (!data.status) {
+      alert("Song not found");
+      return;
+    }
+
+    const player =
+      document.getElementById(
+        "audioPlayer"
+      );
+
+    player.src =
+      data.audio;
+
+    document.getElementById(
+      "nowPlaying"
+    ).innerText =
+      data.title;
+
+    player.play();
 
   } catch(err) {
+
+    console.error(err);
 
     alert("Search failed");
 
   } finally {
 
-    // Search Song text thirich varum
     btn.innerHTML =
       "🔎 Search Song";
 
     btn.disabled = false;
   }
 };
-    const player =
-    document.getElementById(
-      "audioPlayer"
-    );
-
-    player.src =
-    data.audio;
-
-    document.getElementById(
-      "nowPlaying"
-    ).innerText =
-    data.title;
-
-    player.onloadeddata = () => {
-
-      btn.innerText =
-      "🔍 Search Song";
-
-      btn.disabled = false;
-
-    };
-
-    player.play();
-
-  } catch (e) {
-
-    alert(e);
-
-    btn.innerText =
-    "🔍 Search Song";
-
-    btn.disabled = false;
-
-  }
-
-}
 
 import { initializeApp } from "https://www.gstatic.com/firebasejs/10.12.2/firebase-app.js";
 
