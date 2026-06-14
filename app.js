@@ -147,9 +147,13 @@ async function loadFeaturedSongs() {
   }
 
 }
-
 window.playFeatured =
-async function(title) {
+async function(title, btn) {
+
+  btn.innerText =
+  "⏳ Loading...";
+
+  btn.disabled = true;
 
   try {
 
@@ -163,7 +167,14 @@ async function(title) {
       await r.json();
 
     if (!data.status) {
+
+      btn.innerText =
+      "▶ Play";
+
+      btn.disabled = false;
+
       alert("Song not found");
+
       return;
     }
 
@@ -180,15 +191,35 @@ async function(title) {
     ).innerText =
       data.title;
 
+    player.onloadeddata = () => {
+
+      btn.innerText =
+      "⏸ Playing";
+
+      btn.disabled = false;
+
+    };
+
+    player.onended = () => {
+
+      btn.innerText =
+      "▶ Play";
+
+    };
+
     player.play();
 
   } catch(err) {
 
     console.error(err);
+
+    btn.innerText =
+    "▶ Play";
+
+    btn.disabled = false;
+
     alert("Failed to play song");
 
   }
 
 };
-
-loadFeaturedSongs();
