@@ -104,18 +104,37 @@ async function loadFeaturedSongs() {
 });
 }
 
-window.playFeatured = function(audio, title) {
+window.playFeatured = async function(title) {
 
-  const player =
-    document.getElementById("audioPlayer");
+  try {
 
-  player.src = audio;
+    const r = await fetch(
+      "/api/search?q=" +
+      encodeURIComponent(title)
+    );
 
-  document.getElementById(
-    "nowPlaying"
-  ).innerText = title;
+    const data = await r.json();
 
-  player.play();
+    if (!data.status) {
+      alert("Song not found");
+      return;
+    }
+
+    const player =
+      document.getElementById("audioPlayer");
+
+    player.src = data.audio;
+
+    document.getElementById(
+      "nowPlaying"
+    ).innerText = data.title;
+
+    player.play();
+
+  } catch(e) {
+
+    alert(e);
+
+  }
+
 };
-
-loadFeaturedSongs();
