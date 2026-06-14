@@ -126,7 +126,7 @@ async function loadFeaturedSongs() {
         </div>
 
         <button
-          onclick="playFeatured('${song.Title}')"
+          onclick="playFeatured('${song.Title}', this)"
           class="play-btn"
         >
           ▶ Play
