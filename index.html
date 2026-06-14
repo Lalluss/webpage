@@ -80,7 +80,34 @@ body{
     padding-left:20px;
     color:#00d4ff;
 }
+.song-card{
+  display:flex;
+  align-items:center;
+  gap:10px;
+  background:#08233f;
+  padding:10px;
+  margin:10px 0;
+  border-radius:12px;
+}
 
+.song-thumb{
+  width:60px;
+  height:60px;
+  border-radius:10px;
+  object-fit:cover;
+}
+
+.song-info{
+  flex:1;
+}
+
+.play-btn{
+  background:#00d4ff;
+  border:none;
+  padding:8px 15px;
+  border-radius:8px;
+  font-weight:bold;
+    }
 #songs{
     padding:15px;
 }
@@ -192,9 +219,10 @@ onclick="searchSong()"
 </div>
 
 <h2 class="section-title">
-🔥 Featured Songs
+Featured Songs
 </h2>
-
+<div id="featuredSongs"></div>
+    
 <div id="songs"></div>
 
 <div class="footer-space"></div>
