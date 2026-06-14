@@ -79,29 +79,29 @@ async function loadFeaturedSongs() {
 
   snap.forEach((doc) => {
 
-    const song = doc.data();
+  const song = doc.data();
 
-    container.innerHTML += `
-      <div class="song-card">
-        <img
-          src="${song.thumbnail}"
-          class="song-thumb"
-        >
+  container.innerHTML += `
+    <div class="song-card">
+      <img
+        src="${song.thumbnail}"
+        class="song-thumb"
+      >
 
-        <div class="song-info">
-          <h3>${song.title}</h3>
-          <p>${song.artist || "Unknown Artist"}</p>
-        </div>
-
-        <button
-          onclick="playFeatured('${song.audio}','${song.title}')"
-          class="play-btn"
-        >
-          ▶ Play
-        </button>
+      <div class="song-info">
+        <h3>${song.Title}</h3>
+        <p>${song.Artist || "Unknown Artist"}</p>
       </div>
-    `;
-  });
+
+      <button
+        onclick="playFeatured('${song.Title}')"
+        class="play-btn"
+      >
+        ▶ Play
+      </button>
+    </div>
+  `;
+});
 }
 
 window.playFeatured = function(audio, title) {
