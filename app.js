@@ -1,11 +1,17 @@
 window.searchSong = async () => {
 
+  const btn =
+    document.querySelector(".search-btn");
+
   const q =
-  document.getElementById(
-    "searchInput"
-  ).value;
+    document.getElementById(
+      "searchInput"
+    ).value;
 
   if (!q) return;
+
+  btn.innerText = "⏳ Searching...";
+  btn.disabled = true;
 
   try {
 
@@ -19,6 +25,12 @@ window.searchSong = async () => {
 
     if (!data.status) {
       alert("Song not found");
+
+      btn.innerText =
+      "🔍 Search Song";
+
+      btn.disabled = false;
+
       return;
     }
 
@@ -35,15 +47,30 @@ window.searchSong = async () => {
     ).innerText =
     data.title;
 
+    player.onloadeddata = () => {
+
+      btn.innerText =
+      "🔍 Search Song";
+
+      btn.disabled = false;
+
+    };
+
     player.play();
 
   } catch (e) {
 
     alert(e);
 
+    btn.innerText =
+    "🔍 Search Song";
+
+    btn.disabled = false;
+
   }
 
 }
+
 import { initializeApp } from "https://www.gstatic.com/firebasejs/10.12.2/firebase-app.js";
 
 import {
