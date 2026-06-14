@@ -79,62 +79,41 @@ async function loadFeaturedSongs() {
 
   snap.forEach((doc) => {
 
-  const song = doc.data();
+    const song = doc.data();
 
-  container.innerHTML += `
-    <div class="song-card">
-      <img
-        src="${song.thumbnail}"
-        class="song-thumb"
-      >
+    container.innerHTML += `
+      <div class="song-card">
+        <img
+          src="${song.thumbnail}"
+          class="song-thumb"
+        >
 
-      <div class="song-info">
-        <h3>${song.Title}</h3>
-        <p>${song.Artist || "Unknown Artist"}</p>
+        <div class="song-info">
+          <h3>${song.title}</h3>
+          <p>${song.artist || "Unknown Artist"}</p>
+        </div>
+
+        <button
+          onclick="playFeatured('${song.audio}','${song.title}')"
+          class="play-btn"
+        >
+          ▶ Play
+        </button>
       </div>
-
-      <button
-        onclick="playFeatured('${song.Title}')"
-        class="play-btn"
-      >
-        ▶ Play
-      </button>
-    </div>
-  `;
-});
+    `;
+  });
 }
 
-window.playFeatured = async function(title) {
+window.playFeatured = function(audio, title) {
 
-  try {
+  const player =
+    document.getElementById("audioPlayer");
 
-    const r = await fetch(
-      "/api/search?q=" +
-      encodeURIComponent(title)
-    );
+  player.src = audio;
 
-    const data = await r.json();
+  document.getElementById(
+    "nowPlaying"
+  ).innerText = title;
 
-    if (!data.status) {
-      alert("Song not found");
-      return;
-    }
-
-    const player =
-      document.getElementById("audioPlayer");
-
-    player.src = data.audio;
-
-    document.getElementById(
-      "nowPlaying"
-    ).innerText = data.title;
-
-    player.play();
-
-  } catch(e) {
-
-    alert(e);
-
-  }
-
+  player.play();
 };
