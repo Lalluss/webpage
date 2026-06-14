@@ -72,48 +72,96 @@ async function loadFeaturedSongs() {
   container.innerHTML =
     "<p>Loading songs...</p>";
 
-  const snap =
-    await getDocs(collection(db, "songs"));
+  try {
 
-  container.innerHTML = "";
+    const snap =
+      await getDocs(
+        collection(db, "songs")
+      );
 
-  snap.forEach((doc) => {
+    container.innerHTML = "";
 
-    const song = doc.data();
+    snap.forEach((doc) => {
 
-    container.innerHTML += `
+      const song = doc.data();
+
+      container.innerHTML += `
       <div class="song-card">
+
         <img
           src="${song.thumbnail}"
           class="song-thumb"
         >
 
         <div class="song-info">
-          <h3>${song.title}</h3>
-          <p>${song.artist || "Unknown Artist"}</p>
+          <h3>${song.Title}</h3>
+          <p>${song.Artist || "Unknown Artist"}</p>
         </div>
 
         <button
-          onclick="playFeatured('${song.audio}','${song.title}')"
+          onclick="playFeatured('${song.Title}')"
           class="play-btn"
         >
           ▶ Play
         </button>
+
       </div>
-    `;
-  });
+      `;
+
+    });
+
+  } catch(err) {
+
+    console.error(err);
+
+    container.innerHTML =
+      "<p>Failed to load songs</p>";
+
+  }
+
 }
 
-window.playFeatured = function(audio, title) {
+window.playFeatured =
+async function(title) {
 
-  const player =
-    document.getElementById("audioPlayer");
+  try {
 
-  player.src = audio;
+    const r =
+      await fetch(
+        "/api/search?q=" +
+        encodeURIComponent(title)
+      );
 
-  document.getElementById(
-    "nowPlaying"
-  ).innerText = title;
+    const data =
+      await r.json();
 
-  player.play();
+    if (!data.status) {
+      alert("Song not found");
+      return;
+    }
+
+    const player =
+      document.getElementById(
+        "audioPlayer"
+      );
+
+    player.src =
+      data.audio;
+
+    document.getElementById(
+      "nowPlaying"
+    ).innerText =
+      data.title;
+
+    player.play();
+
+  } catch(err) {
+
+    console.error(err);
+    alert("Failed to play song");
+
+  }
+
 };
+
+loadFeaturedSongs();
