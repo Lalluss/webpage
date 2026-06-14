@@ -223,3 +223,4 @@ async function(title, btn) {
   }
 
 };
+loadFeaturedSongs();
