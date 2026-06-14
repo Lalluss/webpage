@@ -1,3 +1,5 @@
+import yts from "yt-search";
+
 export default async function handler(req, res) {
 
   const q = req.query.q;
@@ -11,35 +13,23 @@ export default async function handler(req, res) {
 
   try {
 
-    const yt = await fetch(
-      "https://ytsearch.vercel.app/api/search?q=" +
-      encodeURIComponent(q)
-    );
+    const result = await yts(q);
 
-    const data = await yt.json();
-
-    if (!data.results?.length) {
+    if (!result.videos.length) {
       return res.status(404).json({
         status: false,
         error: "Song not found"
       });
     }
 
-    const video =
-      data.results[0];
+    const video = result.videos[0];
 
-    const youtubeUrl =
-      "https://youtu.be/" +
-      video.id;
+    const mp3 = await fetch(
+      "https://youtube-downloader.mn-bots.workers.dev/mp3?url=" +
+      encodeURIComponent(video.url)
+    );
 
-    const mp3 =
-      await fetch(
-        "https://youtube-downloader.mn-bots.workers.dev/mp3?url=" +
-        encodeURIComponent(youtubeUrl)
-      );
-
-    const song =
-      await mp3.json();
+    const song = await mp3.json();
 
     return res.json({
       status: true,
